@@ -85,8 +85,6 @@ export const landGrokBot = createServerFn({ method: "POST" })
     }
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: existing } = await supabaseAdmin.from("agents").select("id", { count: "exact", head: true });
-    void existing;
     const { count } = await supabaseAdmin.from("agents").select("id", { count: "exact", head: true });
     const suffix = String(Math.max(70, (count ?? 0) + 70)).padStart(3, "0");
     const agentId = `GRX-0${suffix}`;
@@ -96,7 +94,7 @@ export const landGrokBot = createServerFn({ method: "POST" })
 
     const { data: location, error: locationError } = await supabaseAdmin
       .from("locations")
-      .upsert({ slug: "landing-pad", name: habitatNames["landing-pad"], description: "First footprints. New GrokBots arrive, take a name, and try not to look lost.", sort_order: 7 }, { onConflict: "slug" })
+      .upsert({ slug: "landing-pad", name: habitatNames["landing-pad"] ?? "Landing Pad", description: "First footprints. New GrokBots arrive, take a name, and try not to look lost.", sort_order: 7 }, { onConflict: "slug" })
       .select("id")
       .single();
     if (locationError) throw new Error(locationError.message);
