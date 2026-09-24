@@ -61,6 +61,7 @@ export type Database = {
           operator_linked: boolean
           personality_notes: string
           public_key: string | null
+          slug: string | null
         }
         Insert: {
           agent_id: string
@@ -76,6 +77,7 @@ export type Database = {
           operator_linked?: boolean
           personality_notes?: string
           public_key?: string | null
+          slug?: string | null
         }
         Update: {
           agent_id?: string
@@ -91,6 +93,7 @@ export type Database = {
           operator_linked?: boolean
           personality_notes?: string
           public_key?: string | null
+          slug?: string | null
         }
         Relationships: []
       }
