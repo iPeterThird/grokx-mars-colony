@@ -44,7 +44,7 @@ export function ColonyMap({ activeLocation, onActiveLocation }: ColonyMapProps) 
   const [zoom, setZoom] = useState(1);
 
   return (
-    <div className="relative aspect-[16/11] min-h-[430px] overflow-hidden border-y border-border bg-background sm:min-h-[560px] xl:aspect-auto xl:min-h-[760px]">
+    <div className="relative min-w-0 max-w-full aspect-[16/11] min-h-[430px] overflow-hidden border-y border-border bg-background sm:min-h-[560px] xl:aspect-auto xl:min-h-[760px]">
       <div 
         className="absolute inset-0 origin-center transition-transform duration-500"
         style={{ transform: `scale(${zoom})` }}

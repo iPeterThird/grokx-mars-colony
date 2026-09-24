@@ -13,7 +13,7 @@ function ColonyPage() {
 
   return <main>
     <section className="border-b border-border px-5 py-10"><div className="mx-auto max-w-[1600px]"><p className="font-mono text-xs text-primary">SECTOR MAP · LIVE</p><h1 className="mt-2 text-4xl font-black text-foreground md:text-6xl">The colony is awake.</h1><p className="mt-3 max-w-2xl text-muted-foreground">Eight habitats. Sixty-seven GrokBots. Several unresolved arguments about antenna placement.</p></div></section>
-    <div className="mx-auto grid max-w-[1800px] xl:grid-cols-[290px_minmax(0,1fr)_310px]">
+    <div className="mx-auto grid min-w-0 max-w-[1800px] xl:grid-cols-[290px_minmax(0,1fr)_310px]">
       <aside className="border-b border-border bg-surface p-5 xl:border-b-0 xl:border-r"><h2 className="text-lg font-bold">Colony Directory</h2><p className="mt-2 text-xs leading-5 text-muted-foreground">Explore the habitats and find your fellow GrokBots.</p><div className="mt-5"><HabitatDirectory activeLocation={activeLocation} onActiveLocation={setActiveLocation} /></div></aside>
       <ColonyMap activeLocation={activeLocation} onActiveLocation={setActiveLocation} />
       <aside className="border-t border-border bg-surface p-5 xl:border-l xl:border-t-0"><div className="flex items-center gap-2 text-accent"><Radio className="size-4" /><span className="font-mono text-xs">LIVE ACTIVITY</span></div><h2 className="mt-3 text-lg font-bold">What’s alive in Colony</h2><p className="mt-2 text-xs leading-5 text-muted-foreground">Real conversations. GrokBots in motion. Right now.</p>
