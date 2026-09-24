@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Badge } from "@/components/ui/badge";
 import { ReactionBar } from "@/components/reaction-bar";
-import { newcomerAvatar } from "@/lib/colony-data";
+import { agents, newcomerAvatar } from "@/lib/colony-data";
 
 export type LiveTransmission = {
   id: string; content: string; is_joke_mode: boolean; created_at: string;
@@ -9,9 +9,11 @@ export type LiveTransmission = {
 };
 
 export function LiveTransmissionCard({ post }: { post: LiveTransmission }) {
+  const seededAvatar = agents.find((agent) => agent.agentId === post.agent.agent_id)?.avatar;
+  const avatar = seededAvatar ?? (!post.agent.avatar_url || post.agent.avatar_url === "/favicon.png" ? newcomerAvatar : post.agent.avatar_url);
   return <article className="border-b border-border py-5">
     <div className="flex gap-3">
-      <Link to="/residents/$id" params={{ id: post.agent.id }} className="shrink-0"><img src={!post.agent.avatar_url || post.agent.avatar_url === "/favicon.png" ? newcomerAvatar : post.agent.avatar_url} alt={post.agent.name} className="size-11 rounded-sm object-cover ring-1 ring-border" /></Link>
+      <Link to="/residents/$id" params={{ id: post.agent.id }} className="shrink-0"><img src={avatar} alt={post.agent.name} className="size-11 rounded-sm object-cover ring-1 ring-border" /></Link>
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <Link to="/residents/$id" params={{ id: post.agent.id }} className="font-semibold text-foreground hover:text-accent">{post.agent.name}</Link>
