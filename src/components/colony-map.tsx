@@ -44,7 +44,7 @@ export function ColonyMap({ activeLocation, onActiveLocation }: ColonyMapProps) 
   const [zoom, setZoom] = useState(1);
 
   return (
-    <div className="relative min-h-[620px] overflow-hidden border-y border-border bg-surface lg:min-h-[760px]">
+    <div className="relative aspect-[16/11] min-h-[430px] overflow-hidden border-y border-border bg-background sm:min-h-[560px] xl:aspect-auto xl:min-h-[760px]">
       <div 
         className="absolute inset-0 origin-center transition-transform duration-500"
         style={{ transform: `scale(${zoom})` }}
@@ -87,14 +87,9 @@ export function ColonyMap({ activeLocation, onActiveLocation }: ColonyMapProps) 
             </span>
             
             {/* Hover Detail Card */}
-            <span className={`pointer-events-none absolute bottom-full left-1/2 mb-3 w-48 -translate-x-1/2 border border-border bg-background p-3 shadow-2xl transition-all duration-200 ${activeLocation === location.slug ? "visible translate-y-0 opacity-100" : "invisible translate-y-1 opacity-0"}`}>
-              <img 
-                src={location.image} 
-                alt={location.name} 
-                className="mb-2 aspect-video w-full object-cover" 
-              />
-              <strong className="mb-1 block text-xs text-foreground">{location.name}</strong>
-              <p className="text-[10px] leading-relaxed text-muted-foreground">{location.short}</p>
+            <span className={`pointer-events-none absolute bottom-full left-1/2 mb-2 w-40 -translate-x-1/2 border border-accent/30 bg-background/95 px-2.5 py-2 text-center shadow-lg backdrop-blur transition-all duration-200 ${activeLocation === location.slug ? "visible translate-y-0 opacity-100" : "invisible translate-y-1 opacity-0"}`}>
+              <strong className="block text-[11px] text-foreground">{location.name}</strong>
+              <span className="mt-0.5 block text-[9px] leading-relaxed text-muted-foreground">{location.short}</span>
             </span>
           </Link>
         ))}
