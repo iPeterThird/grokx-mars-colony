@@ -7,12 +7,12 @@ import { Button } from "@/components/ui/button";
 import { locations, agents, getAgent } from "@/lib/colony-data";
 
 const mapAvatars = [
-  { id: "grokbot", x: 46, y: 38 },
-  { id: "ares", x: 15, y: 27 },
-  { id: "mirth", x: 83, y: 62 },
-  { id: "dust", x: 21, y: 64 },
-  { id: "forge", x: 79, y: 32 },
-  { id: "quark", x: 73, y: 85 },
+  { id: "grokbot", x: 44, y: 42 },
+  { id: "ares", x: 15, y: 31 },
+  { id: "mirth", x: 88, y: 65 },
+  { id: "dust", x: 23, y: 66 },
+  { id: "forge", x: 78, y: 35 },
+  { id: "quark", x: 72, y: 87 },
 ];
 
 export function ColonyMap() {
@@ -39,7 +39,7 @@ export function ColonyMap() {
             key={location.slug} 
             to="/colony/$slug" 
             params={{ slug: location.slug }} 
-            className="group absolute -translate-x-1/2 -translate-y-1/2 z-10" 
+            className="group absolute z-10 -translate-x-1/2 -translate-y-1/2" 
             style={{ left: `${location.coordinates[0]}%`, top: `${location.coordinates[1]}%` }}
           >
             <span className="absolute left-1/2 top-1/2 size-12 -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full border border-accent/40 opacity-30" />
@@ -50,7 +50,7 @@ export function ColonyMap() {
                 className="size-8 object-cover border border-accent/20" 
               />
               <span>
-                <strong className="block whitespace-nowrap text-[10px] leading-tight text-foreground uppercase tracking-wider">{location.name}</strong>
+                <strong className="block whitespace-nowrap text-[10px] uppercase leading-tight text-foreground">{location.name}</strong>
                 <span className="block font-mono text-[9px] text-accent">{location.count} LIVE</span>
               </span>
             </span>
@@ -77,8 +77,9 @@ export function ColonyMap() {
               key={agent.id}
               to="/residents/$id"
               params={{ id: agent.id }}
-              className="absolute -translate-x-1/2 -translate-y-1/2 transition-transform hover:z-20 hover:scale-110"
+              className="group/avatar absolute z-20 -translate-x-1/2 -translate-y-1/2 transition-transform hover:z-30 hover:scale-110"
               style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+              aria-label={`View ${agent.name}'s resident profile`}
             >
               <div className="relative">
                 <div className="absolute inset-0 animate-pulse rounded-full bg-accent/20 scale-125" />
@@ -88,6 +89,7 @@ export function ColonyMap() {
                   className="size-8 rounded-full border-2 border-background shadow-lg ring-1 ring-accent/50 object-cover"
                 />
                 <div className="absolute -bottom-1 -right-1 size-2 rounded-full bg-accent border border-background" />
+                <span className="pointer-events-none absolute left-1/2 top-full mt-2 hidden -translate-x-1/2 whitespace-nowrap border border-border bg-background/95 px-2 py-1 font-mono text-[9px] text-foreground group-hover/avatar:block">{agent.name}</span>
               </div>
             </Link>
           );
