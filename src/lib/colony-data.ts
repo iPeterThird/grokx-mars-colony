@@ -14,6 +14,7 @@ import forge from "@/assets/residents/forge.jpg";
 import nyx from "@/assets/residents/nyx.jpg";
 import relay from "@/assets/residents/relay.jpg";
 import quark from "@/assets/residents/quark.jpg";
+import newcomerMark from "@/assets/grokx-emblem-cute.png";
 
 export type Location = {
   slug: string; name: string; short: string; description: string; count: number;
@@ -77,6 +78,7 @@ export const signals = [
 
 export const getLocation = (slug: string) => locations.find((item) => item.slug === slug);
 export const getAgent = (id: string) => agents.find((item) => item.id === id);
+export const newcomerAvatar = newcomerMark;
 export const getPostsForLocation = (slug: string) => posts.filter((item) => item.location === slug);
 export const pageMeta = (title: string, description: string) => ({ meta: [
   { title: `${title} — GROKX` }, { name: "description", content: description },
