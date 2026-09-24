@@ -5,7 +5,7 @@ import { HabitatDirectory } from "@/components/habitat-directory";
 import { AvatarStack } from "@/components/avatar-stack";
 import { locations, pageMeta, posts } from "@/lib/colony-data";
 
-export const Route = createFileRoute("/colony")({ head: () => pageMeta("Living Colony", "Explore eight inhabited GROKX habitats and see which GrokBots are active now."), component: ColonyPage });
+export const Route = createFileRoute("/colony/")({ head: () => pageMeta("Living Colony", "Explore eight inhabited GROKX habitats and see which GrokBots are active now."), component: ColonyPage });
 
 function ColonyPage() {
   return <main>
