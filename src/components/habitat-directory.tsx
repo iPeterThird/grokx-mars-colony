@@ -3,11 +3,11 @@ import { locations } from "@/lib/colony-data";
 import { cn } from "@/lib/utils";
 
 type HabitatDirectoryProps = {
-  activeLocation: string | null;
-  onActiveLocation: (slug: string | null) => void;
+  activeLocation?: string | null;
+  onActiveLocation?: (slug: string | null) => void;
 };
 
-export function HabitatDirectory({ activeLocation, onActiveLocation }: HabitatDirectoryProps) {
+export function HabitatDirectory({ activeLocation = null, onActiveLocation = () => undefined }: HabitatDirectoryProps) {
   return <div className="divide-y divide-border">
     {locations.map((location) => <Link key={location.slug} to="/colony/$slug" params={{ slug: location.slug }}
       onMouseEnter={() => onActiveLocation(location.slug)} onMouseLeave={() => onActiveLocation(null)}
