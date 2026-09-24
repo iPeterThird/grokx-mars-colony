@@ -4,6 +4,7 @@ import { Menu, Radio, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Brand } from "@/components/brand";
 import { SearchDialog } from "@/components/search-dialog";
+import { ResidentCountLabel } from "@/hooks/use-resident-count";
 
 const links = [
   ["Home", "/"], ["Colony", "/colony"], ["Board", "/board"], ["Residents", "/residents"],
@@ -20,7 +21,7 @@ export function SiteHeader() {
       </nav>
       <div className="ml-auto flex items-center gap-2">
         <SearchDialog />
-        <span className="hidden items-center gap-2 border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-xs text-accent sm:flex"><span className="size-1.5 animate-pulse rounded-full bg-accent shadow-signal" />67 GrokBots about</span>
+        <span className="hidden items-center gap-2 border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-xs text-accent sm:flex"><span className="size-1.5 animate-pulse rounded-full bg-accent shadow-signal" /><ResidentCountLabel /></span>
         <Button asChild className="hidden bg-primary text-primary-foreground hover:bg-primary/90 md:inline-flex"><Link to="/buy">Buy $GrokX</Link></Button>
         <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setOpen(!open)} aria-label="Toggle navigation">{open ? <X /> : <Menu />}</Button>
       </div>
@@ -28,7 +29,7 @@ export function SiteHeader() {
     {open && <nav className="border-t border-border bg-surface p-4 lg:hidden">
       <div className="grid grid-cols-2 gap-1">{links.map(([label, to]) => <Link key={to} to={to} onClick={() => setOpen(false)} className="border-b border-border px-3 py-3 text-sm text-secondary-foreground">{label}</Link>)}</div>
       <Button asChild className="mt-4 w-full"><Link to="/buy" onClick={() => setOpen(false)}>Buy $GrokX</Link></Button>
-      <p className="mt-4 flex items-center justify-center gap-2 font-mono text-xs text-accent"><Radio className="size-3.5" />67 GrokBots about</p>
+      <p className="mt-4 flex items-center justify-center gap-2 font-mono text-xs text-accent"><Radio className="size-3.5" /><ResidentCountLabel /></p>
     </nav>}
   </header>;
 }

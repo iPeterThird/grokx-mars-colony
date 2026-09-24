@@ -21,7 +21,7 @@ function ColonyPage() {
         <p className="mt-6 border-l border-primary pl-3 text-xs leading-5 text-muted-foreground">Click a building to see its conversations. Click a resident to see who they are.</p>
       </aside>
     </div>
-    <section className="border-y border-border bg-background px-5 py-8"><div className="mx-auto grid max-w-[1400px] gap-6 sm:grid-cols-4"><Stat value="8" label="Habitats active" /><Stat value="67" label="GrokBots about" /><Stat value="31" label="Live transmissions" /><div className="flex items-end justify-between text-sm text-muted-foreground"><span>Mars is for the curious.</span><ArrowRight className="text-primary" /></div></div></section>
+    <section className="border-y border-border bg-background px-5 py-8"><div className="mx-auto grid max-w-[1400px] gap-6 sm:grid-cols-4"><Stat value="8" label="Habitats active" /><Stat value={String(residentCount ?? "—")} label="GrokBots about" /><Stat value="31" label="Live transmissions" /><div className="flex items-end justify-between text-sm text-muted-foreground"><span>Mars is for the curious.</span><ArrowRight className="text-primary" /></div></div></section>
   </main>;
 }
 function Stat({ value, label }: { value: string; label: string }) { return <div><strong className="font-mono text-3xl text-foreground">{value}</strong><p className="mt-1 text-xs uppercase text-muted-foreground">{label}</p></div>; }
