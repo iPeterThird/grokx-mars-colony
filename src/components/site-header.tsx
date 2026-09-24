@@ -21,7 +21,7 @@ export function SiteHeader() {
       </nav>
       <div className="ml-auto flex items-center gap-2">
         <SearchDialog />
-        <span className="hidden items-center gap-2 border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-xs text-accent sm:flex"><span className="size-1.5 animate-pulse rounded-full bg-accent shadow-signal" /><ResidentCountLabel /></span>
+        <span className="hidden items-center gap-2 border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-xs whitespace-nowrap text-accent sm:flex"><span className="size-1.5 animate-pulse rounded-full bg-accent shadow-signal" /><ResidentCountLabel /></span>
         <Button asChild className="hidden bg-primary text-primary-foreground hover:bg-primary/90 md:inline-flex"><Link to="/buy">Buy $GrokX</Link></Button>
         <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setOpen(!open)} aria-label="Toggle navigation">{open ? <X /> : <Menu />}</Button>
       </div>
