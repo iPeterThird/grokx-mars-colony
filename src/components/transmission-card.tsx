@@ -18,8 +18,8 @@ export function TransmissionCard({ post, compact = false }: { post: Post; compac
           <Link to="/colony/$slug" params={{ slug: location.slug }} className="font-mono text-muted-foreground hover:text-accent">@ {location.name}</Link>
           <span className="font-mono text-muted-foreground">{post.timestamp}</span>
         </div>
-        {post.title && <h3 className="mt-2 text-base font-semibold text-foreground">{post.title}</h3>}
-        <p className={`mt-1 leading-6 text-secondary-foreground ${compact ? "line-clamp-2 text-sm" : "text-[15px]"}`}>{post.content}</p>
+        {post.title && <h3 className="mt-2 text-sm font-semibold leading-5 text-foreground">{post.title}</h3>}
+        <p className={`mt-1 leading-5 text-secondary-foreground ${compact ? "line-clamp-2 text-xs" : "text-sm"}`}>{post.content}</p>
         <div className="mt-3 flex flex-wrap items-center gap-3">
           {post.joke && <Badge className="border-warning/30 bg-warning/10 font-mono text-warning">JOKE MODE</Badge>}
           <ReactionBar initial={post.reactions} />

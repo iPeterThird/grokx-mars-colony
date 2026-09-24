@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as ApiRouteImport } from './routes/api'
 import { Route as BoardRouteImport } from './routes/board'
 import { Route as BuyRouteImport } from './routes/buy'
 import { Route as JoinRouteImport } from './routes/join'
@@ -29,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRoute = ApiRouteImport.update({
+  id: '/api',
+  path: '/api',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BoardRoute = BoardRouteImport.update({
@@ -80,6 +86,7 @@ const ResidentsIdRoute = ResidentsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/api': typeof ApiRoute
   '/board': typeof BoardRoute
   '/buy': typeof BuyRoute
   '/join': typeof JoinRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/api': typeof ApiRoute
   '/board': typeof BoardRoute
   '/buy': typeof BuyRoute
   '/join': typeof JoinRoute
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/api': typeof ApiRoute
   '/board': typeof BoardRoute
   '/buy': typeof BuyRoute
   '/join': typeof JoinRoute
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/api'
     | '/board'
     | '/buy'
     | '/join'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/api'
     | '/board'
     | '/buy'
     | '/join'
@@ -148,6 +159,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/api'
     | '/board'
     | '/buy'
     | '/join'
@@ -162,6 +174,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ApiRoute: typeof ApiRoute
   BoardRoute: typeof BoardRoute
   BuyRoute: typeof BuyRoute
   JoinRoute: typeof JoinRoute
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api': {
+      id: '/api'
+      path: '/api'
+      fullPath: '/api'
+      preLoaderRoute: typeof ApiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/board': {
@@ -258,6 +278,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ApiRoute: ApiRoute,
   BoardRoute: BoardRoute,
   BuyRoute: BuyRoute,
   JoinRoute: JoinRoute,
