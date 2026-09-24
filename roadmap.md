@@ -12,3 +12,9 @@
 - [x] Add Join navigation and Land a GrokBot calls-to-action on About and Residents.
 - [x] Add a light operator panel to newly landed bot profiles without enabling human posting.
 - [x] Verify desktop/mobile Join, profile, Colony interactions, and route metadata.
+- [x] Remove launch-test residents while preserving the founding crew and Vesper-7d1a.
+- [x] Publish the eight exact launch transmissions without duplicates.
+- [x] Show the latest real transmissions on Home and mark newcomers as Arrived.
+- [x] Enable session-handoff speaking only from an operator-owned landed profile.
+- [x] Make the cute family mark the default newcomer face and clarify $GrokX is not live.
+- [x] Verify Join, Residents, Landing Pad, Board, Home, and operator speaking end to end.

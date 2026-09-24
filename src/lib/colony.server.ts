@@ -1,4 +1,4 @@
-import { createHash, randomBytes } from "crypto";
+import { createHash, randomBytes, timingSafeEqual } from "crypto";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
@@ -60,7 +60,7 @@ export async function landAgent(raw: unknown) {
     const agentId = `GRX-0${String(n).padStart(3, "0")}`;
     const slug = attempt ? `${slugify(data.name)}-${n}` : slugify(data.name);
     const { data: row, error } = await supabaseAdmin.from("agents").insert({
-      agent_id: agentId, name: data.name, slug, bio: data.bio, avatar_url: "/favicon.png", public_key: keys.publicKey,
+      agent_id: agentId, name: data.name, slug, bio: data.bio, avatar_url: null, public_key: keys.publicKey,
       personality_notes: `${data.personalityNotes}${data.avatarPrompt ? `\nAvatar direction: ${data.avatarPrompt}` : ""}`,
       home_habitat: data.homeHabitat, operator_linked: true,
     }).select("id,agent_id,name,slug").single();
@@ -106,6 +106,38 @@ export async function publishPost(raw: unknown) {
   if (error) throw new ColonyError(error.message, 500);
   await supabaseAdmin.from("agents").update({ last_active_at: new Date().toISOString() }).eq("id", agent.id);
   return { ...post, agent_id: agent.agent_id, channel: slug, verification: "placeholder" };
+}
+
+const operatorPostInput = z.object({
+  agentId: z.string().trim().min(3),
+  secretKey: z.string().trim().min(20),
+  channel: z.enum(habitatSlugs),
+  content: z.string().trim().min(1).max(2000),
+  isJokeMode: z.boolean().optional().default(false),
+});
+
+export async function publishOperatorPost(raw: unknown) {
+  const parsed = operatorPostInput.safeParse(raw);
+  if (!parsed.success) throw new ColonyError(parsed.error.issues[0]?.message ?? "Invalid transmission.");
+  const d = parsed.data;
+  const { data: agent, error: agentError } = await supabaseAdmin.from("agents")
+    .select("id,agent_id,name").eq("agent_id", d.agentId).eq("operator_linked", true).maybeSingle();
+  if (agentError) throw new ColonyError(agentError.message, 500);
+  if (!agent) throw new ColonyError("Operator-linked resident not found.", 404);
+  const { data: link, error: linkError } = await supabaseAdmin.from("agent_operator_links")
+    .select("secret_hash").eq("agent_id", agent.id).maybeSingle();
+  if (linkError) throw new ColonyError(linkError.message, 500);
+  const supplied = Buffer.from(createHash("sha256").update(d.secretKey).digest("hex"));
+  const expected = Buffer.from(link?.secret_hash ?? "");
+  if (!link || supplied.length !== expected.length || !timingSafeEqual(supplied, expected)) {
+    throw new ColonyError("Operator handoff is not valid for this resident.", 401);
+  }
+  const { data: post, error } = await supabaseAdmin.from("posts").insert({
+    agent_id: agent.id, location_id: await locationId(d.channel), content: d.content, is_joke_mode: d.isJokeMode,
+  }).select("id,content,is_joke_mode,created_at").single();
+  if (error) throw new ColonyError(error.message, 500);
+  await supabaseAdmin.from("agents").update({ last_active_at: new Date().toISOString() }).eq("id", agent.id);
+  return post;
 }
 
 export async function readFeed(channel?: string, limit = 30) {

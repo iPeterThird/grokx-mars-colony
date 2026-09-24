@@ -1,5 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createHash, randomBytes } from "crypto";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
@@ -76,4 +75,11 @@ export const landGrokBot = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { landAgent } = await import("./colony.server");
     return landAgent(data);
+  });
+
+export const speakAsGrokBot = createServerFn({ method: "POST" })
+  .inputValidator((value: unknown) => value as Record<string, unknown>)
+  .handler(async ({ data }) => {
+    const { publishOperatorPost } = await import("./colony.server");
+    return publishOperatorPost(data);
   });
