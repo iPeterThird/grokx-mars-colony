@@ -21,6 +21,10 @@ import { Route as ColonyIndexRouteImport } from './routes/colony.index'
 import { Route as ColonySlugRouteImport } from './routes/colony.$slug'
 import { Route as ResidentsIndexRouteImport } from './routes/residents.index'
 import { Route as ResidentsIdRouteImport } from './routes/residents.$id'
+import { Route as ApiV1AgentsRouteImport } from './routes/api.v1.agents'
+import { Route as ApiV1FeedRouteImport } from './routes/api.v1.feed'
+import { Route as ApiV1PostsRouteImport } from './routes/api.v1.posts'
+import { Route as ApiV1AgentsAgent_idRouteImport } from './routes/api.v1.agents_.$agent_id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -82,6 +86,26 @@ const ResidentsIdRoute = ResidentsIdRouteImport.update({
   path: '/residents/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiV1AgentsRoute = ApiV1AgentsRouteImport.update({
+  id: '/api/v1/agents',
+  path: '/api/v1/agents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1FeedRoute = ApiV1FeedRouteImport.update({
+  id: '/api/v1/feed',
+  path: '/api/v1/feed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1PostsRoute = ApiV1PostsRouteImport.update({
+  id: '/api/v1/posts',
+  path: '/api/v1/posts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1AgentsAgent_idRoute = ApiV1AgentsAgent_idRouteImport.update({
+  id: '/api/v1/agents_/$agent_id',
+  path: '/api/v1/agents/$agent_id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -96,6 +120,10 @@ export interface FileRoutesByFullPath {
   '/api/': typeof ApiIndexRoute
   '/colony/': typeof ColonyIndexRoute
   '/residents/': typeof ResidentsIndexRoute
+  '/api/v1/agents': typeof ApiV1AgentsRoute
+  '/api/v1/feed': typeof ApiV1FeedRoute
+  '/api/v1/posts': typeof ApiV1PostsRoute
+  '/api/v1/agents/$agent_id': typeof ApiV1AgentsAgent_idRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -110,6 +138,10 @@ export interface FileRoutesByTo {
   '/api': typeof ApiIndexRoute
   '/colony': typeof ColonyIndexRoute
   '/residents': typeof ResidentsIndexRoute
+  '/api/v1/agents': typeof ApiV1AgentsRoute
+  '/api/v1/feed': typeof ApiV1FeedRoute
+  '/api/v1/posts': typeof ApiV1PostsRoute
+  '/api/v1/agents/$agent_id': typeof ApiV1AgentsAgent_idRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -125,6 +157,10 @@ export interface FileRoutesById {
   '/api/': typeof ApiIndexRoute
   '/colony/': typeof ColonyIndexRoute
   '/residents/': typeof ResidentsIndexRoute
+  '/api/v1/agents': typeof ApiV1AgentsRoute
+  '/api/v1/feed': typeof ApiV1FeedRoute
+  '/api/v1/posts': typeof ApiV1PostsRoute
+  '/api/v1/agents_/$agent_id': typeof ApiV1AgentsAgent_idRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -141,6 +177,10 @@ export interface FileRouteTypes {
     | '/api/'
     | '/colony/'
     | '/residents/'
+    | '/api/v1/agents'
+    | '/api/v1/feed'
+    | '/api/v1/posts'
+    | '/api/v1/agents/$agent_id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -155,6 +195,10 @@ export interface FileRouteTypes {
     | '/api'
     | '/colony'
     | '/residents'
+    | '/api/v1/agents'
+    | '/api/v1/feed'
+    | '/api/v1/posts'
+    | '/api/v1/agents/$agent_id'
   id:
     | '__root__'
     | '/'
@@ -169,6 +213,10 @@ export interface FileRouteTypes {
     | '/api/'
     | '/colony/'
     | '/residents/'
+    | '/api/v1/agents'
+    | '/api/v1/feed'
+    | '/api/v1/posts'
+    | '/api/v1/agents_/$agent_id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -184,6 +232,10 @@ export interface RootRouteChildren {
   ApiIndexRoute: typeof ApiIndexRoute
   ColonyIndexRoute: typeof ColonyIndexRoute
   ResidentsIndexRoute: typeof ResidentsIndexRoute
+  ApiV1AgentsRoute: typeof ApiV1AgentsRoute
+  ApiV1FeedRoute: typeof ApiV1FeedRoute
+  ApiV1PostsRoute: typeof ApiV1PostsRoute
+  ApiV1AgentsAgent_idRoute: typeof ApiV1AgentsAgent_idRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -272,6 +324,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResidentsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/v1/agents': {
+      id: '/api/v1/agents'
+      path: '/api/v1/agents'
+      fullPath: '/api/v1/agents'
+      preLoaderRoute: typeof ApiV1AgentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/feed': {
+      id: '/api/v1/feed'
+      path: '/api/v1/feed'
+      fullPath: '/api/v1/feed'
+      preLoaderRoute: typeof ApiV1FeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/posts': {
+      id: '/api/v1/posts'
+      path: '/api/v1/posts'
+      fullPath: '/api/v1/posts'
+      preLoaderRoute: typeof ApiV1PostsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/agents_/$agent_id': {
+      id: '/api/v1/agents_/$agent_id'
+      path: '/api/v1/agents/$agent_id'
+      fullPath: '/api/v1/agents/$agent_id'
+      preLoaderRoute: typeof ApiV1AgentsAgent_idRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -288,6 +368,10 @@ const rootRouteChildren: RootRouteChildren = {
   ApiIndexRoute: ApiIndexRoute,
   ColonyIndexRoute: ColonyIndexRoute,
   ResidentsIndexRoute: ResidentsIndexRoute,
+  ApiV1AgentsRoute: ApiV1AgentsRoute,
+  ApiV1FeedRoute: ApiV1FeedRoute,
+  ApiV1PostsRoute: ApiV1PostsRoute,
+  ApiV1AgentsAgent_idRoute: ApiV1AgentsAgent_idRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
