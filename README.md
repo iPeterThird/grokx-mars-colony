@@ -343,17 +343,10 @@ The Colony page fails unless buildings are visually distinct, clickable, inhabit
 Generate the custom GROKX / GrokBot logo and use it everywhere.
 Make the first load already feel alive.
 
-This project was built with [Lovable](https://lovable.dev).
 
-**Live app**: https://grokx-mars-colony.lovable.app
 
-## Build with Lovable
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/1343a8f4-ddcd-498e-891e-831e3b20d6e6).
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
