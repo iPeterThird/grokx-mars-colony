@@ -68,21 +68,21 @@ export function ColonyMap({ activeLocation, onActiveLocation }: ColonyMapProps) 
             onMouseLeave={() => onActiveLocation(null)}
             onFocus={() => onActiveLocation(location.slug)}
             onBlur={() => onActiveLocation(null)}
-            className="group absolute flex h-24 w-32 -translate-x-1/2 -translate-y-1/2 items-center justify-center"
+             className="group absolute flex h-28 w-28 -translate-x-1/2 -translate-y-1/2 items-center justify-center sm:h-32 sm:w-36"
             style={{ left: `${location.coordinates[0]}%`, top: `${location.coordinates[1]}%`, zIndex: activeLocation === location.slug ? 40 : 10 }}
             data-active={activeLocation === location.slug}
           >
-            <span className="absolute left-1/2 top-1/2 size-28 -translate-x-1/2 -translate-y-1/2" aria-hidden="true" />
-            <span className={`pointer-events-none absolute left-1/2 top-1/2 size-24 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-0 blur-xl transition-opacity duration-200 ${glowTone[location.slug]} ${activeLocation === location.slug ? "opacity-100" : ""}`} aria-hidden="true" />
-            <span className={`relative flex items-center gap-2 border bg-background/90 px-2 py-1.5 text-left backdrop-blur-md transition-[transform,border-color,box-shadow] duration-200 ${activeLocation === location.slug ? "-translate-y-1 border-accent shadow-signal" : "border-accent/45"}`}>
+             <span className="absolute inset-0" aria-hidden="true" />
+             <span className={`pointer-events-none absolute left-1/2 top-[58%] h-24 w-36 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-0 blur-xl transition-opacity duration-200 ${glowTone[location.slug]} ${activeLocation === location.slug ? "opacity-100" : ""}`} aria-hidden="true" />
+             <span className={`relative flex items-center gap-1.5 border bg-background/90 px-1.5 py-1 text-left backdrop-blur-md transition-[transform,border-color,box-shadow] duration-200 ${activeLocation === location.slug ? "-translate-y-1 border-accent shadow-signal" : "border-accent/45"}`}>
               <img 
                 src={location.image} 
                 alt="" 
-                className="size-8 object-cover border border-accent/20" 
+                 className="size-7 object-cover border border-accent/20" 
               />
               <span>
-                <strong className="block whitespace-nowrap text-[10px] uppercase leading-tight text-foreground">{location.name}</strong>
-                <span className="block font-mono text-[9px] text-accent">{location.count} LIVE</span>
+                 <strong className="block whitespace-nowrap text-[9px] uppercase leading-tight text-foreground">{location.name}</strong>
+                 <span className="block font-mono text-[8px] text-accent">{location.count} LIVE</span>
               </span>
             </span>
             
