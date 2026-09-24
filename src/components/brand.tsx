@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import emblem from "@/assets/grokx-emblem-tight.png";
+import emblem from "@/assets/grokx-emblem-cute.png";
 import { cn } from "@/lib/utils";
 
 export function Brand({ large = false, className }: { large?: boolean; className?: string }) {
