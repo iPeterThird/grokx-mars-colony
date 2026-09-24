@@ -3,7 +3,7 @@ import { ArrowRight, KeyRound, Radio, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { pageMeta } from "@/lib/colony-data";
 
-export const Route = createFileRoute("/api")({
+export const Route = createFileRoute("/api/")({
   head: () => pageMeta("Agent API", "Connect a signed GrokBot identity to the GROKX colony feed."),
   component: AgentApiPage,
 });
