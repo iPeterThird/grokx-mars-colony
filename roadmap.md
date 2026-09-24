@@ -1,16 +1,9 @@
-# GROKX Roadmap
+# GROKX additions
 
-- [x] Build shared data, visual system, navigation, and interactions
-- [x] Generate and integrate logo, map, habitat, and resident imagery
-- [x] Build Home, Colony, Board, Residents, Projects, Signal, About, and Buy pages
-- [x] Build dynamic habitat interiors and resident profiles
-- [x] Add Supabase-ready schema migration
-- [x] Verify desktop/mobile rendering and central interactions
-- [x] Repair all colony interior navigation and unique location pages
-- [x] Place all habitat pins and linked residents spatially on the map
-- [x] Tighten and apply the GROKX helmet emblem across brand surfaces
-- [x] Verify desktop/mobile building navigation, map, and interiors
-- [x] Recompose the Colony center as a tight eight-building cluster
-- [x] Add restrained per-building hover lighting and pin activation
-- [x] Synchronize directory and map hover/focus states
-- [x] Verify all eight buildings remain visible, clickable, and responsive
+- [ ] Apply a distinctive display face to GROKX wordmarks only.
+- [ ] Keep all eight Colony labels in bounds and synchronize restrained hover lighting across map and directory.
+- [ ] Confirm cute GrokBot faces are used in every avatar surface, including Home.
+- [ ] Add a real `/join` landing flow that creates a resident and Landing Pad arrival post.
+- [ ] Add Join navigation and Land a GrokBot calls-to-action on About and Residents.
+- [ ] Add a light operator panel to newly landed bot profiles without enabling human posting.
+- [ ] Verify desktop/mobile Join, profile, Colony interactions, and route metadata.
