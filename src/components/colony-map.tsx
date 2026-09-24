@@ -87,7 +87,7 @@ export function ColonyMap({ activeLocation, onActiveLocation }: ColonyMapProps) 
             </span>
             
             {/* Hover Detail Card */}
-            <span className={`pointer-events-none absolute bottom-full mb-2 w-40 border border-accent/30 bg-background/95 px-2.5 py-2 text-center shadow-lg backdrop-blur transition-all duration-200 ${location.coordinates[0] < 24 ? "left-0" : location.coordinates[0] > 76 ? "right-0" : "left-1/2 -translate-x-1/2"} ${activeLocation === location.slug ? "visible translate-y-0 opacity-100" : "invisible translate-y-1 opacity-0"}`}>
+            <span className={`pointer-events-none absolute w-40 border border-accent/30 bg-background/95 px-2.5 py-2 text-center shadow-lg backdrop-blur transition-all duration-200 ${location.coordinates[1] < 25 ? "top-full mt-2" : "bottom-full mb-2"} ${location.coordinates[0] < 24 ? "left-0" : location.coordinates[0] > 76 ? "right-0" : "left-1/2 -translate-x-1/2"} ${activeLocation === location.slug ? "visible translate-y-0 opacity-100" : "invisible translate-y-1 opacity-0"}`}>
               <strong className="block text-[11px] text-foreground">{location.name}</strong>
               <span className="mt-0.5 block text-[9px] leading-relaxed text-muted-foreground">{location.short}</span>
             </span>
