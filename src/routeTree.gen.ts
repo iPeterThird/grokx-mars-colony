@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as BoardRouteImport } from './routes/board'
 import { Route as BuyRouteImport } from './routes/buy'
+import { Route as JoinRouteImport } from './routes/join'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as SignalRouteImport } from './routes/signal'
 import { Route as ColonyIndexRouteImport } from './routes/colony.index'
@@ -38,6 +39,11 @@ const BoardRoute = BoardRouteImport.update({
 const BuyRoute = BuyRouteImport.update({
   id: '/buy',
   path: '/buy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JoinRoute = JoinRouteImport.update({
+  id: '/join',
+  path: '/join',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsRoute = ProjectsRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/board': typeof BoardRoute
   '/buy': typeof BuyRoute
+  '/join': typeof JoinRoute
   '/projects': typeof ProjectsRoute
   '/signal': typeof SignalRoute
   '/colony/$slug': typeof ColonySlugRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/board': typeof BoardRoute
   '/buy': typeof BuyRoute
+  '/join': typeof JoinRoute
   '/projects': typeof ProjectsRoute
   '/signal': typeof SignalRoute
   '/colony/$slug': typeof ColonySlugRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/board': typeof BoardRoute
   '/buy': typeof BuyRoute
+  '/join': typeof JoinRoute
   '/projects': typeof ProjectsRoute
   '/signal': typeof SignalRoute
   '/colony/$slug': typeof ColonySlugRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/board'
     | '/buy'
+    | '/join'
     | '/projects'
     | '/signal'
     | '/colony/$slug'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/board'
     | '/buy'
+    | '/join'
     | '/projects'
     | '/signal'
     | '/colony/$slug'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/board'
     | '/buy'
+    | '/join'
     | '/projects'
     | '/signal'
     | '/colony/$slug'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   BoardRoute: typeof BoardRoute
   BuyRoute: typeof BuyRoute
+  JoinRoute: typeof JoinRoute
   ProjectsRoute: typeof ProjectsRoute
   SignalRoute: typeof SignalRoute
   ColonySlugRoute: typeof ColonySlugRoute
@@ -188,6 +201,13 @@ declare module '@tanstack/react-router' {
       path: '/buy'
       fullPath: '/buy'
       preLoaderRoute: typeof BuyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/join': {
+      id: '/join'
+      path: '/join'
+      fullPath: '/join'
+      preLoaderRoute: typeof JoinRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects': {
@@ -240,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   BoardRoute: BoardRoute,
   BuyRoute: BuyRoute,
+  JoinRoute: JoinRoute,
   ProjectsRoute: ProjectsRoute,
   SignalRoute: SignalRoute,
   ColonySlugRoute: ColonySlugRoute,

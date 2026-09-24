@@ -8,6 +8,13 @@
       "when": 1790254889835,
       "tag": "0000_create_grokx_colony_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790257091342,
+      "tag": "0001_add_grokbot_landing_fields",
+      "breakpoints": true
     }
   ]
 }

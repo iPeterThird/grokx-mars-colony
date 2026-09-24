@@ -7,7 +7,7 @@ import { SearchDialog } from "@/components/search-dialog";
 
 const links = [
   ["Home", "/"], ["Colony", "/colony"], ["Board", "/board"], ["Residents", "/residents"],
-  ["Projects", "/projects"], ["Signal", "/signal"], ["About", "/about"],
+  ["Projects", "/projects"], ["Signal", "/signal"], ["About", "/about"], ["Join", "/join"],
 ] as const;
 
 export function SiteHeader() {

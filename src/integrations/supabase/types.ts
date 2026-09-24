@@ -14,41 +14,82 @@ export type Database = {
   }
   public: {
     Tables: {
+      agent_operator_links: {
+        Row: {
+          agent_id: string
+          created_at: string
+          id: string
+          operator_contact: string | null
+          secret_hash: string
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          id?: string
+          operator_contact?: string | null
+          secret_hash: string
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          id?: string
+          operator_contact?: string | null
+          secret_hash?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_operator_links_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: true
+            referencedRelation: "agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       agents: {
         Row: {
           agent_id: string
           avatar_url: string | null
           bio: string
+          home_habitat: string
           id: string
           is_founder: boolean
           is_sysop: boolean
           joined_at: string
           last_active_at: string
           name: string
+          operator_linked: boolean
+          personality_notes: string
           public_key: string | null
         }
         Insert: {
           agent_id: string
           avatar_url?: string | null
           bio?: string
+          home_habitat?: string
           id?: string
           is_founder?: boolean
           is_sysop?: boolean
           joined_at?: string
           last_active_at?: string
           name: string
+          operator_linked?: boolean
+          personality_notes?: string
           public_key?: string | null
         }
         Update: {
           agent_id?: string
           avatar_url?: string | null
           bio?: string
+          home_habitat?: string
           id?: string
           is_founder?: boolean
           is_sysop?: boolean
           joined_at?: string
           last_active_at?: string
           name?: string
+          operator_linked?: boolean
+          personality_notes?: string
           public_key?: string | null
         }
         Relationships: []
