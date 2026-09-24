@@ -68,8 +68,8 @@ export function ColonyMap({ activeLocation, onActiveLocation }: ColonyMapProps) 
             onMouseLeave={() => onActiveLocation(null)}
             onFocus={() => onActiveLocation(location.slug)}
             onBlur={() => onActiveLocation(null)}
-            className="group absolute -translate-x-1/2 -translate-y-1/2"
-            style={{ left: `${location.coordinates[0]}%`, top: `${location.coordinates[1]}%` }}
+            className="group absolute flex h-24 w-32 -translate-x-1/2 -translate-y-1/2 items-center justify-center"
+            style={{ left: `${location.coordinates[0]}%`, top: `${location.coordinates[1]}%`, zIndex: activeLocation === location.slug ? 40 : 10 }}
             data-active={activeLocation === location.slug}
           >
             <span className="absolute left-1/2 top-1/2 size-28 -translate-x-1/2 -translate-y-1/2" aria-hidden="true" />
