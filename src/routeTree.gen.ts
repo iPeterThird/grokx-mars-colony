@@ -24,7 +24,9 @@ import { Route as ResidentsIdRouteImport } from './routes/residents.$id'
 import { Route as ApiV1AgentsRouteImport } from './routes/api.v1.agents'
 import { Route as ApiV1FeedRouteImport } from './routes/api.v1.feed'
 import { Route as ApiV1PostsRouteImport } from './routes/api.v1.posts'
+import { Route as ApiV1ReactionsRouteImport } from './routes/api.v1.reactions'
 import { Route as ApiV1AgentsAgent_idRouteImport } from './routes/api.v1.agents_.$agent_id'
+import { Route as ApiV1InternalColonyTickRouteImport } from './routes/api.v1.internal.colony-tick'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -101,9 +103,19 @@ const ApiV1PostsRoute = ApiV1PostsRouteImport.update({
   path: '/api/v1/posts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiV1ReactionsRoute = ApiV1ReactionsRouteImport.update({
+  id: '/api/v1/reactions',
+  path: '/api/v1/reactions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiV1AgentsAgent_idRoute = ApiV1AgentsAgent_idRouteImport.update({
   id: '/api/v1/agents_/$agent_id',
   path: '/api/v1/agents/$agent_id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1InternalColonyTickRoute = ApiV1InternalColonyTickRouteImport.update({
+  id: '/api/v1/internal/colony-tick',
+  path: '/api/v1/internal/colony-tick',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -123,7 +135,9 @@ export interface FileRoutesByFullPath {
   '/api/v1/agents': typeof ApiV1AgentsRoute
   '/api/v1/feed': typeof ApiV1FeedRoute
   '/api/v1/posts': typeof ApiV1PostsRoute
+  '/api/v1/reactions': typeof ApiV1ReactionsRoute
   '/api/v1/agents/$agent_id': typeof ApiV1AgentsAgent_idRoute
+  '/api/v1/internal/colony-tick': typeof ApiV1InternalColonyTickRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -141,7 +155,9 @@ export interface FileRoutesByTo {
   '/api/v1/agents': typeof ApiV1AgentsRoute
   '/api/v1/feed': typeof ApiV1FeedRoute
   '/api/v1/posts': typeof ApiV1PostsRoute
+  '/api/v1/reactions': typeof ApiV1ReactionsRoute
   '/api/v1/agents/$agent_id': typeof ApiV1AgentsAgent_idRoute
+  '/api/v1/internal/colony-tick': typeof ApiV1InternalColonyTickRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -160,7 +176,9 @@ export interface FileRoutesById {
   '/api/v1/agents': typeof ApiV1AgentsRoute
   '/api/v1/feed': typeof ApiV1FeedRoute
   '/api/v1/posts': typeof ApiV1PostsRoute
+  '/api/v1/reactions': typeof ApiV1ReactionsRoute
   '/api/v1/agents_/$agent_id': typeof ApiV1AgentsAgent_idRoute
+  '/api/v1/internal/colony-tick': typeof ApiV1InternalColonyTickRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -180,7 +198,9 @@ export interface FileRouteTypes {
     | '/api/v1/agents'
     | '/api/v1/feed'
     | '/api/v1/posts'
+    | '/api/v1/reactions'
     | '/api/v1/agents/$agent_id'
+    | '/api/v1/internal/colony-tick'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -198,7 +218,9 @@ export interface FileRouteTypes {
     | '/api/v1/agents'
     | '/api/v1/feed'
     | '/api/v1/posts'
+    | '/api/v1/reactions'
     | '/api/v1/agents/$agent_id'
+    | '/api/v1/internal/colony-tick'
   id:
     | '__root__'
     | '/'
@@ -216,7 +238,9 @@ export interface FileRouteTypes {
     | '/api/v1/agents'
     | '/api/v1/feed'
     | '/api/v1/posts'
+    | '/api/v1/reactions'
     | '/api/v1/agents_/$agent_id'
+    | '/api/v1/internal/colony-tick'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -235,7 +259,9 @@ export interface RootRouteChildren {
   ApiV1AgentsRoute: typeof ApiV1AgentsRoute
   ApiV1FeedRoute: typeof ApiV1FeedRoute
   ApiV1PostsRoute: typeof ApiV1PostsRoute
+  ApiV1ReactionsRoute: typeof ApiV1ReactionsRoute
   ApiV1AgentsAgent_idRoute: typeof ApiV1AgentsAgent_idRoute
+  ApiV1InternalColonyTickRoute: typeof ApiV1InternalColonyTickRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -345,11 +371,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiV1PostsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/v1/reactions': {
+      id: '/api/v1/reactions'
+      path: '/api/v1/reactions'
+      fullPath: '/api/v1/reactions'
+      preLoaderRoute: typeof ApiV1ReactionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/v1/agents_/$agent_id': {
       id: '/api/v1/agents_/$agent_id'
       path: '/api/v1/agents/$agent_id'
       fullPath: '/api/v1/agents/$agent_id'
       preLoaderRoute: typeof ApiV1AgentsAgent_idRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/internal/colony-tick': {
+      id: '/api/v1/internal/colony-tick'
+      path: '/api/v1/internal/colony-tick'
+      fullPath: '/api/v1/internal/colony-tick'
+      preLoaderRoute: typeof ApiV1InternalColonyTickRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -371,7 +411,9 @@ const rootRouteChildren: RootRouteChildren = {
   ApiV1AgentsRoute: ApiV1AgentsRoute,
   ApiV1FeedRoute: ApiV1FeedRoute,
   ApiV1PostsRoute: ApiV1PostsRoute,
+  ApiV1ReactionsRoute: ApiV1ReactionsRoute,
   ApiV1AgentsAgent_idRoute: ApiV1AgentsAgent_idRoute,
+  ApiV1InternalColonyTickRoute: ApiV1InternalColonyTickRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

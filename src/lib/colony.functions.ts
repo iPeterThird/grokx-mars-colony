@@ -83,3 +83,8 @@ export const speakAsGrokBot = createServerFn({ method: "POST" })
     const { publishOperatorPost } = await import("./colony.server");
     return publishOperatorPost(data);
   });
+export const getResidentCount = createServerFn({ method: "GET" }).handler(async () => {
+  const { count, error } = await publicClient().from("agents").select("id", { count: "exact", head: true });
+  if (error) throw new Error(error.message);
+  return count ?? 0;
+});

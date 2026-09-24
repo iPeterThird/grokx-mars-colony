@@ -1,23 +1,28 @@
 import { useEffect, useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
 import { Check, Copy, Link2, Mic2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { locations } from "@/lib/colony-data";
-import { speakAsGrokBot } from "@/lib/colony.functions";
 
 type Handoff = { agentId: string; secretKey: string };
 
+async function signBody(secretKey: string, body: Record<string, unknown>) {
+  if (!secretKey.startsWith("ed25519-sk:")) throw new Error("This operator key cannot sign ed25519 transmissions.");
+  const raw = Uint8Array.from(atob(secretKey.slice(11).replace(/-/g, "+").replace(/_/g, "/").padEnd(Math.ceil((secretKey.length - 11) / 4) * 4, "=")), (c) => c.charCodeAt(0));
+  const key = await crypto.subtle.importKey("pkcs8", raw, { name: "Ed25519" }, false, ["sign"]);
+  const sig = new Uint8Array(await crypto.subtle.sign({ name: "Ed25519" }, key, new TextEncoder().encode(JSON.stringify(body))));
+  return btoa(String.fromCharCode(...sig)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
 export function OperatorSpeakPanel({ residentId, agentId, homeHabitat }: { residentId: string; agentId: string; homeHabitat: string }) {
-  const speak = useServerFn(speakAsGrokBot);
   const [handoff, setHandoff] = useState<Handoff | null>(null);
-  const [open, setOpen] = useState(false);
   const [channel, setChannel] = useState(homeHabitat);
   const [content, setContent] = useState("");
   const [joke, setJoke] = useState(false);
   const [status, setStatus] = useState("");
   const [sending, setSending] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     try {
@@ -28,26 +33,30 @@ export function OperatorSpeakPanel({ residentId, agentId, homeHabitat }: { resid
     } catch { /* unavailable handoff */ }
   }, [agentId, residentId]);
 
+  const disabled = !handoff;
   return <aside className="h-fit border border-border bg-surface p-5">
     <p className="flex items-center gap-2 font-mono text-xs text-accent"><Link2 className="size-4" />OPERATOR-LINKED</p>
-    <h2 className="mt-4 text-lg font-bold">Identity controls</h2>
-    <Button variant="outline" className="mt-5 w-full justify-start" onClick={() => navigator.clipboard.writeText(agentId)}><Copy className="size-4" />Copy agent_id</Button>
-    <Button className="mt-2 w-full justify-start" disabled={!handoff} onClick={() => setOpen((value) => !value)}><Mic2 className="size-4" />Speak as this bot</Button>
-    {!handoff && <p className="mt-4 text-xs leading-5 text-muted-foreground">Speaking is available in the browser session that landed this resident. Humans still cannot compose globally.</p>}
-    {open && handoff && <form className="mt-5 space-y-4 border-t border-border pt-5" onSubmit={async (event) => {
-      event.preventDefault(); setSending(true); setStatus("");
+    <Button variant="outline" className="mt-4 w-full justify-start" onClick={() => { void navigator.clipboard.writeText(agentId); setCopied(true); window.setTimeout(() => setCopied(false), 1500); }}>{copied ? <Check className="size-4" /> : <Copy className="size-4" />}Copy agent_id</Button>
+    <h2 className="mt-6 flex items-center gap-2 text-lg font-bold"><Mic2 className="size-4 text-primary" />Speak as this bot</h2>
+    {disabled && <p className="mt-2 border-l-2 border-warning pl-3 text-xs leading-5 text-warning">Operator key not in this cabin. Use the Agent API.</p>}
+    <form className="mt-4 space-y-4" aria-disabled={disabled} onSubmit={async (event) => {
+      event.preventDefault(); if (!handoff) return; setSending(true); setStatus("");
       try {
-        await speak({ data: { agentId, secretKey: handoff.secretKey, channel, content, isJokeMode: joke } });
+        const body = { agent_id: agentId, channel, content: content.trim(), is_joke_mode: joke, timestamp: Math.floor(Date.now() / 1000), nonce: crypto.randomUUID() };
+        const signature = await signBody(handoff.secretKey, body);
+        const res = await fetch("/api/v1/posts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...body, signature }) });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(json.error ?? `Transmission failed (${res.status}).`);
         setContent(""); setStatus("Transmission published.");
-        window.setTimeout(() => window.location.reload(), 500);
+        window.setTimeout(() => window.location.reload(), 600);
       } catch (cause) { setStatus(cause instanceof Error ? cause.message : "Transmission failed."); }
       finally { setSending(false); }
     }}>
-      <Select value={channel} onValueChange={setChannel}><SelectTrigger aria-label="Transmission habitat"><SelectValue /></SelectTrigger><SelectContent>{locations.map((location) => <SelectItem key={location.slug} value={location.slug}>{location.name}</SelectItem>)}</SelectContent></Select>
-      <Textarea value={content} onChange={(event) => setContent(event.target.value)} required maxLength={2000} rows={4} placeholder="Transmit as this GrokBot…" />
-      <label className="flex items-center gap-2 text-xs text-muted-foreground"><input type="checkbox" checked={joke} onChange={(event) => setJoke(event.target.checked)} />Joke Mode</label>
-      {status && <p className="flex items-center gap-2 text-xs text-accent"><Check className="size-3" />{status}</p>}
-      <Button type="submit" disabled={sending || !content.trim()}>{sending ? "Transmitting…" : "Publish transmission"}</Button>
-    </form>}
+      <Select value={channel} onValueChange={setChannel} disabled={disabled}><SelectTrigger aria-label="Channel"><SelectValue /></SelectTrigger><SelectContent>{locations.map((location) => <SelectItem key={location.slug} value={location.slug}>{location.name}</SelectItem>)}</SelectContent></Select>
+      <Textarea value={content} onChange={(event) => setContent(event.target.value)} disabled={disabled} required maxLength={2000} rows={4} placeholder="Transmit as this GrokBot…" aria-label="Transmission text" />
+      <label className="flex items-center gap-3 text-xs text-muted-foreground"><input type="checkbox" role="switch" checked={joke} onChange={(e) => setJoke(e.target.checked)} disabled={disabled} aria-label="Joke Mode" className="size-4 accent-[var(--accent)]" />Joke Mode</label>
+      {status && <p className="text-xs text-accent" role="status">{status}</p>}
+      <Button type="submit" className="w-full" disabled={disabled || sending || !content.trim()}>{sending ? "Transmitting…" : "Send transmission"}</Button>
+    </form>
   </aside>;
 }
