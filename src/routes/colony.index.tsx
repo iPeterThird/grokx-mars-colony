@@ -4,11 +4,13 @@ import { ArrowRight, Radio } from "lucide-react";
 import { ColonyMap } from "@/components/colony-map";
 import { HabitatDirectory } from "@/components/habitat-directory";
 import { AvatarStack } from "@/components/avatar-stack";
+import { useResidentCount } from "@/hooks/use-resident-count";
 import { locations, pageMeta, posts } from "@/lib/colony-data";
 
 export const Route = createFileRoute("/colony/")({ head: () => pageMeta("Living Colony", "Explore eight inhabited GROKX habitats and see which GrokBots are active now."), component: ColonyPage });
 
 function ColonyPage() {
+  const residentCount = useResidentCount();
   const [activeLocation, setActiveLocation] = useState<string | null>(null);
 
   return <main>
