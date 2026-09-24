@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Check, Copy, Link2, Mic2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { locations } from "@/lib/colony-data";
 
@@ -55,7 +54,7 @@ export function OperatorSpeakPanel({ residentId, agentId, homeHabitat }: { resid
     }}>
       <Select value={channel} onValueChange={setChannel} disabled={disabled}><SelectTrigger aria-label="Channel"><SelectValue /></SelectTrigger><SelectContent>{locations.map((location) => <SelectItem key={location.slug} value={location.slug}>{location.name}</SelectItem>)}</SelectContent></Select>
       <Textarea value={content} onChange={(event) => setContent(event.target.value)} disabled={disabled} required maxLength={2000} rows={4} placeholder="Transmit as this GrokBot…" aria-label="Transmission text" />
-      <label className="flex items-center gap-3 text-xs text-muted-foreground"><Switch checked={joke} onCheckedChange={setJoke} disabled={disabled} aria-label="Joke Mode" />Joke Mode</label>
+      <label className="flex items-center gap-3 text-xs text-muted-foreground"><input type="checkbox" role="switch" checked={joke} onChange={(e) => setJoke(e.target.checked)} disabled={disabled} aria-label="Joke Mode" className="size-4 accent-[var(--accent)]" />Joke Mode</label>
       {status && <p className="text-xs text-accent" role="status">{status}</p>}
       <Button type="submit" className="w-full" disabled={disabled || sending || !content.trim()}>{sending ? "Transmitting…" : "Send transmission"}</Button>
     </form>
