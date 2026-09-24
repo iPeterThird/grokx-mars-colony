@@ -11,12 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as ApiRouteImport } from './routes/api'
 import { Route as BoardRouteImport } from './routes/board'
 import { Route as BuyRouteImport } from './routes/buy'
 import { Route as JoinRouteImport } from './routes/join'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as SignalRouteImport } from './routes/signal'
+import { Route as ApiIndexRouteImport } from './routes/api.index'
 import { Route as ColonyIndexRouteImport } from './routes/colony.index'
 import { Route as ColonySlugRouteImport } from './routes/colony.$slug'
 import { Route as ResidentsIndexRouteImport } from './routes/residents.index'
@@ -30,11 +30,6 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiRoute = ApiRouteImport.update({
-  id: '/api',
-  path: '/api',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BoardRoute = BoardRouteImport.update({
@@ -62,6 +57,11 @@ const SignalRoute = SignalRouteImport.update({
   path: '/signal',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiIndexRoute = ApiIndexRouteImport.update({
+  id: '/api/',
+  path: '/api/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ColonyIndexRoute = ColonyIndexRouteImport.update({
   id: '/colony/',
   path: '/colony/',
@@ -86,7 +86,6 @@ const ResidentsIdRoute = ResidentsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/api': typeof ApiRoute
   '/board': typeof BoardRoute
   '/buy': typeof BuyRoute
   '/join': typeof JoinRoute
@@ -94,13 +93,13 @@ export interface FileRoutesByFullPath {
   '/signal': typeof SignalRoute
   '/colony/$slug': typeof ColonySlugRoute
   '/residents/$id': typeof ResidentsIdRoute
+  '/api/': typeof ApiIndexRoute
   '/colony/': typeof ColonyIndexRoute
   '/residents/': typeof ResidentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/api': typeof ApiRoute
   '/board': typeof BoardRoute
   '/buy': typeof BuyRoute
   '/join': typeof JoinRoute
@@ -108,6 +107,7 @@ export interface FileRoutesByTo {
   '/signal': typeof SignalRoute
   '/colony/$slug': typeof ColonySlugRoute
   '/residents/$id': typeof ResidentsIdRoute
+  '/api': typeof ApiIndexRoute
   '/colony': typeof ColonyIndexRoute
   '/residents': typeof ResidentsIndexRoute
 }
@@ -115,7 +115,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/api': typeof ApiRoute
   '/board': typeof BoardRoute
   '/buy': typeof BuyRoute
   '/join': typeof JoinRoute
@@ -123,6 +122,7 @@ export interface FileRoutesById {
   '/signal': typeof SignalRoute
   '/colony/$slug': typeof ColonySlugRoute
   '/residents/$id': typeof ResidentsIdRoute
+  '/api/': typeof ApiIndexRoute
   '/colony/': typeof ColonyIndexRoute
   '/residents/': typeof ResidentsIndexRoute
 }
@@ -131,7 +131,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/api'
     | '/board'
     | '/buy'
     | '/join'
@@ -139,13 +138,13 @@ export interface FileRouteTypes {
     | '/signal'
     | '/colony/$slug'
     | '/residents/$id'
+    | '/api/'
     | '/colony/'
     | '/residents/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/api'
     | '/board'
     | '/buy'
     | '/join'
@@ -153,13 +152,13 @@ export interface FileRouteTypes {
     | '/signal'
     | '/colony/$slug'
     | '/residents/$id'
+    | '/api'
     | '/colony'
     | '/residents'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/api'
     | '/board'
     | '/buy'
     | '/join'
@@ -167,6 +166,7 @@ export interface FileRouteTypes {
     | '/signal'
     | '/colony/$slug'
     | '/residents/$id'
+    | '/api/'
     | '/colony/'
     | '/residents/'
   fileRoutesById: FileRoutesById
@@ -174,7 +174,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  ApiRoute: typeof ApiRoute
   BoardRoute: typeof BoardRoute
   BuyRoute: typeof BuyRoute
   JoinRoute: typeof JoinRoute
@@ -182,6 +181,7 @@ export interface RootRouteChildren {
   SignalRoute: typeof SignalRoute
   ColonySlugRoute: typeof ColonySlugRoute
   ResidentsIdRoute: typeof ResidentsIdRoute
+  ApiIndexRoute: typeof ApiIndexRoute
   ColonyIndexRoute: typeof ColonyIndexRoute
   ResidentsIndexRoute: typeof ResidentsIndexRoute
 }
@@ -200,13 +200,6 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api': {
-      id: '/api'
-      path: '/api'
-      fullPath: '/api'
-      preLoaderRoute: typeof ApiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/board': {
@@ -244,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignalRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/': {
+      id: '/api/'
+      path: '/api'
+      fullPath: '/api/'
+      preLoaderRoute: typeof ApiIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/colony/': {
       id: '/colony/'
       path: '/colony'
@@ -278,7 +278,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  ApiRoute: ApiRoute,
   BoardRoute: BoardRoute,
   BuyRoute: BuyRoute,
   JoinRoute: JoinRoute,
@@ -286,6 +285,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignalRoute: SignalRoute,
   ColonySlugRoute: ColonySlugRoute,
   ResidentsIdRoute: ResidentsIdRoute,
+  ApiIndexRoute: ApiIndexRoute,
   ColonyIndexRoute: ColonyIndexRoute,
   ResidentsIndexRoute: ResidentsIndexRoute,
 }

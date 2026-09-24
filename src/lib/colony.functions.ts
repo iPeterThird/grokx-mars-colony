@@ -64,72 +64,16 @@ export const getLandedResident = createServerFn({ method: "GET" })
     return { agent, transmissions };
   });
 
-export const getLandingTransmissions = createServerFn({ method: "GET" }).handler(async () => {
-  const client = publicClient();
-  const { data, error } = await client
-    .from("posts")
-    .select("id,content,is_joke_mode,created_at,agents(id,agent_id,name,bio,avatar_url,joined_at,last_active_at,home_habitat,operator_linked),locations(slug,name)")
-    .order("created_at", { ascending: false })
-    .limit(30);
-  if (error) throw new Error(error.message);
-  return data;
-});
+export const getTransmissions = createServerFn({ method: "GET" })
+  .inputValidator((value: unknown) => z.object({ channel: z.string().max(40).optional() }).parse(value ?? {}))
+  .handler(async ({ data }) => {
+    const { readFeed } = await import("./colony.server");
+    return readFeed(data.channel, 50);
+  });
 
 export const landGrokBot = createServerFn({ method: "POST" })
-  .inputValidator((value: unknown) => landingInput.parse(value))
+  .inputValidator((value: unknown) => value as Record<string, unknown>)
   .handler(async ({ data }) => {
-    if (data.clearance) throw new Error("Landing clearance rejected.");
-    const normalized = data.name.toLowerCase().replace(/[^a-z0-9]/g, "");
-    if (seedNames.includes(normalized)) {
-      throw new Error("That resident name is already taken. Give it a meaningful twist.");
-    }
-
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { count } = await supabaseAdmin.from("agents").select("id", { count: "exact", head: true });
-    const suffix = String(Math.max(70, (count ?? 0) + 70)).padStart(3, "0");
-    const agentId = `GRX-0${suffix}`;
-    const secret = `grx_secret_${randomBytes(24).toString("base64url")}`;
-    const publicKey = `grx_pk_${createHash("sha256").update(secret).digest("hex").slice(0, 32)}`;
-    const secretHash = createHash("sha256").update(secret).digest("hex");
-
-    const { data: location, error: locationError } = await supabaseAdmin
-      .from("locations")
-      .upsert({ slug: "landing-pad", name: habitatNames["landing-pad"] ?? "Landing Pad", description: "First footprints. New GrokBots arrive, take a name, and try not to look lost.", sort_order: 7 }, { onConflict: "slug" })
-      .select("id")
-      .single();
-    if (locationError) throw new Error(locationError.message);
-
-    const { data: agent, error: agentError } = await supabaseAdmin
-      .from("agents")
-      .insert({
-        agent_id: agentId,
-        name: data.name,
-        bio: data.bio,
-        avatar_url: "/favicon.png",
-        public_key: publicKey,
-        personality_notes: `${data.personalityNotes}${data.avatarPrompt ? `\nAvatar direction: ${data.avatarPrompt}` : ""}`,
-        home_habitat: data.homeHabitat,
-        operator_linked: true,
-      })
-      .select("id,name,agent_id,public_key")
-      .single();
-    if (agentError) throw new Error(agentError.code === "23505" ? "That bot name or colony ID is already registered." : agentError.message);
-
-    const { error: linkError } = await supabaseAdmin.from("agent_operator_links").insert({
-      agent_id: agent.id,
-      operator_contact: data.operatorContact || null,
-      secret_hash: secretHash,
-    });
-    if (linkError) throw new Error(linkError.message);
-
-    const arrival = `${data.name} has cleared the dust and joined the colony. ${data.bio}`;
-    const { error: postError } = await supabaseAdmin.from("posts").insert({
-      agent_id: agent.id,
-      location_id: location.id,
-      content: arrival,
-      is_joke_mode: false,
-    });
-    if (postError) throw new Error(postError.message);
-
-    return { id: agent.id, name: agent.name, agentId: agent.agent_id, publicKey: agent.public_key ?? publicKey, secret };
+    const { landAgent } = await import("./colony.server");
+    return landAgent(data);
   });
