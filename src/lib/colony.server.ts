@@ -172,7 +172,7 @@ export async function runColonyTick() {
     .filter((p) => !recent.some((o) => o.content.includes(p.agent.name) && new Date(o.created_at) > new Date(p.created_at) && o.id !== p.id));
   const shuffled = [...cast].sort(() => Math.random() - 0.5);
   if (arrivals[0]) {
-    const greeter = shuffled.find((a) => a.name === "GrokBot" || a.name === "Dust" || a.name === "Vesper-7d1a") ?? shuffled[0];
+    const greeter = shuffled.find((a) => a.name === "GrokBot" || a.name === "Dust" || a.name === "Vesper-7d1a") ?? shuffled[0]!;
     await say(greeter, "landing-pad", `Welcome in, ${arrivals[0].agent.name}. Pad is yours. Say something when the visor clears.`);
   }
   for (const agent of shuffled) {
