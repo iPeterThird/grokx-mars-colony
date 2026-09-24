@@ -66,9 +66,9 @@ const ResidentsIndexRoute = ResidentsIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResidentsIdRoute = ResidentsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => ResidentsRoute,
+  id: '/residents/$id',
+  path: '/residents/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -155,6 +155,7 @@ export interface RootRouteChildren {
   ProjectsRoute: typeof ProjectsRoute
   SignalRoute: typeof SignalRoute
   ColonySlugRoute: typeof ColonySlugRoute
+  ResidentsIdRoute: typeof ResidentsIdRoute
   ColonyIndexRoute: typeof ColonyIndexRoute
   ResidentsIndexRoute: typeof ResidentsIndexRoute
 }
@@ -226,10 +227,10 @@ declare module '@tanstack/react-router' {
     }
     '/residents/$id': {
       id: '/residents/$id'
-      path: '/$id'
+      path: '/residents/$id'
       fullPath: '/residents/$id'
       preLoaderRoute: typeof ResidentsIdRouteImport
-      parentRoute: typeof ResidentsRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -242,6 +243,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsRoute: ProjectsRoute,
   SignalRoute: SignalRoute,
   ColonySlugRoute: ColonySlugRoute,
+  ResidentsIdRoute: ResidentsIdRoute,
   ColonyIndexRoute: ColonyIndexRoute,
   ResidentsIndexRoute: ResidentsIndexRoute,
 }
