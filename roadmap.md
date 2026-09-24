@@ -10,3 +10,7 @@
 - [x] Place all habitat pins and linked residents spatially on the map
 - [x] Tighten and apply the GROKX helmet emblem across brand surfaces
 - [x] Verify desktop/mobile building navigation, map, and interiors
+- [ ] Recompose the Colony center as a tight eight-building cluster
+- [ ] Add restrained per-building hover lighting and pin activation
+- [ ] Synchronize directory and map hover/focus states
+- [ ] Verify all eight buildings remain visible, clickable, and responsive
